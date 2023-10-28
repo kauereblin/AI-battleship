@@ -2,6 +2,7 @@ import random, pygame
 from time import sleep
 from Ship import Ship
 from constants import *
+from util import *
 
 class Agent:
   ships = []
@@ -26,20 +27,7 @@ class Agent:
         y = random.randint(0, GRID_SIZE - size)
         positions = [[x, y + _] for _ in range(size)]
 
-      hasConflict = False
-      for pos in positions:
-        for ship in self.ships:
-          for x, y in zip(ship.positions["x"], ship.positions["y"]):
-            if pos == [x, y]:
-              print("CONFLICT")
-              hasConflict = True
-              break
-          if hasConflict:
-            break
-        if hasConflict:
-          break
-
-      if hasConflict:
+      if hasShipConflict(positions, self.ships):
         continue
 
       new_ship = Ship(positions, size, orientation)
@@ -50,7 +38,8 @@ class Agent:
     pass
 
   def draw(self, surface) -> None:
-    for ship in self.ships:
-      for x, y in zip(ship.positions["x"], ship.positions["y"]):
-        rec = pygame.Rect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
-        pygame.draw.rect(surface, RED, rec)
+    pass
+    # for ship in self.ships:
+    #   for x, y in zip(ship.positions["x"], ship.positions["y"]):
+    #     rec = pygame.Rect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
+    #     pygame.draw.rect(surface, RED, rec)

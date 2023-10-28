@@ -6,7 +6,7 @@ class Board:
   
   def __init__(self) -> None:
     self.surface = pygame.Surface((BOARD_WIDTH, BOARD_HEIGHT))
-    self.surface.fill(WHITE)
+    self.surface.fill(LIGHT_BLUE)
 
   def update(self) -> None:
     pass
