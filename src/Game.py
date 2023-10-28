@@ -12,12 +12,12 @@ class Game:
   board = Board()
   agent = Agent()
   player = Player()
+  state = PLACING_SHIPS
 
   def __init__(self) -> None:
     pygame.init()
     self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Battleship Board")
-    self.agent = Agent()
 
   def run(self) -> None:
     while self.running:
@@ -36,8 +36,8 @@ class Game:
     self.player.update()
 
   def draw(self) -> None:
-    self.board.draw()
-    self.agent.draw()
-    self.player.draw()
-    self.screen.blit(self.board.board_surface, (SCREEN_WIDTH // 2 - BOARD_WIDTH // 2, SCREEN_HEIGHT // 2 - BOARD_HEIGHT // 2))
+    self.board .draw()
+    self.agent .draw(self.board.surface)
+    self.player.draw(self.board.surface)
+    self.screen.blit(self.board.surface, (SCREEN_WIDTH // 2 - BOARD_WIDTH // 2, SCREEN_HEIGHT // 2 - BOARD_HEIGHT // 2))
     pygame.display.flip()

@@ -1,11 +1,12 @@
-from Agent import Agent
+class Player():
+  ships = []
+  moves = []
 
-class Player(Agent):
   def __init__(self) -> None:
     pass
 
   def update(self) -> None:
     pass
 
-  def draw(self) -> None:
+  def draw(self, surface) -> None:
     pass
