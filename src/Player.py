@@ -14,6 +14,7 @@ class Player():
       first_coord = eval(input(f"\nDigite a posição do seu navio de tamanho {SHIP_SIZES[len(self.ships)]}: "))
       orientation = str(input("Digite a orientação do seu navio (h/v): "))
 
+      # generate all coordinates of the ship
       if (orientation == "h"):
         positions = [[first_coord[0] + _, first_coord[1]] for _ in range(SHIP_SIZES[len(self.ships)])]
       else:

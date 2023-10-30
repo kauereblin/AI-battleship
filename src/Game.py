@@ -1,5 +1,3 @@
-import pygame
-
 from Agent import Agent
 from Player import Player
 from Board import Board
@@ -9,12 +7,10 @@ from util import *
 
 class Game:
   running = True
-  screen = None
   board = Board()
   agent = Agent()
   player = Player()
   state = PLACING_SHIPS
-  orientation = False
 
   def __init__(self) -> None:
     pass
@@ -30,6 +26,7 @@ class Game:
       elif (self.state == PLAYER_TURN):
         self.player.update(self.state)
         self.player.moves[-1].append(hasShipConflict([self.player.moves[-1]], self.agent.ships))
+        # if hits, add true to the last move
 
         self.board.draw_moves(self.player.moves)
         self.state = AI_TURN
@@ -37,6 +34,7 @@ class Game:
       elif (self.state == AI_TURN):
         self.agent.update(self.player.ships)
         self.agent.moves[-1].append(hasShipConflict([self.agent.moves[-1]], self.player.ships))
+        # if hits, add true to the last move
 
         self.board.draw_moves(self.agent.moves)
         self.state = PLAYER_TURN
