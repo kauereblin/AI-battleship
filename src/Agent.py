@@ -7,6 +7,7 @@ from util import *
 class Agent:
   ships = []
   moves = []
+  targets = []
 
   def __init__(self) -> None:
     self.set_ships()
@@ -30,16 +31,32 @@ class Agent:
       if hasShipConflict(positions, self.ships):
         continue
 
+      #print(positions)
       new_ship = Ship(positions, size, orientation)
       self.ships.append(new_ship)
       idx -= 1
-    
-  def update(self) -> None:
-    pass
 
-  def draw(self, surface) -> None:
-    pass
-    # for ship in self.ships:
-    #   for x, y in zip(ship.positions["x"], ship.positions["y"]):
-    #     rec = pygame.Rect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
-    #     pygame.draw.rect(surface, RED, rec)
+  def guess_random(self):
+    while True:
+      guess_row, guess_col = random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+      if [guess_row, guess_col] not in self.moves:
+        break
+    
+    return [guess_row, guess_col]
+
+  def update(self, player_ships) -> None:
+    if not self.targets:
+      guess_row, guess_col = self.guess_random()
+    else:
+      guess_row, guess_col = self.targets.pop()
+
+    if (hasShipConflict([[guess_row, guess_col]], player_ships)):
+      potential_targets = [[guess_row + 1, guess_col], [guess_row, guess_col + 1],
+                         [guess_row - 1, guess_col], [guess_row, guess_col - 1]]
+      
+      for move_x, move_y in potential_targets:
+        if (0 <= move_x < GRID_SIZE - 1 and 0 <= move_y < GRID_SIZE - 1 and \
+            [move_x, move_y] not in self.moves and [move_x, move_y] not in self.targets):
+          self.targets.append([move_x, move_y])
+    
+    self.moves.append([guess_row, guess_col])

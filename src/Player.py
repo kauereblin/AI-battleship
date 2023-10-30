@@ -1,4 +1,3 @@
-import pygame
 from Ship import Ship
 
 from constants import *
@@ -10,14 +9,18 @@ class Player():
   def __init__(self) -> None:
     pass
 
-  def add_ship(self, positions, orientation) -> None:
-    self.ships.append(Ship(positions, len(positions), orientation))
+  def update(self, state) -> None:
+    if (state == PLACING_SHIPS):
+      first_coord = eval(input(f"\nDigite a posição do seu navio de tamanho {SHIP_SIZES[len(self.ships)]}: "))
+      orientation = str(input("Digite a orientação do seu navio (h/v): "))
 
-  def update(self) -> None:
-    pass
+      if (orientation == "h"):
+        positions = [[first_coord[0] + _, first_coord[1]] for _ in range(SHIP_SIZES[len(self.ships)])]
+      else:
+        positions = [[first_coord[0], first_coord[1] + _] for _ in range(SHIP_SIZES[len(self.ships)])]
 
-  def draw(self, surface) -> None:
-    for ship in self.ships:
-      for x, y in zip(ship.positions["x"], ship.positions["y"]):
-        rec = pygame.Rect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
-        pygame.draw.rect(surface, GREEN, rec)
+      self.ships.append(Ship(positions, len(positions), orientation))
+
+    elif (state == PLAYER_TURN):
+      coord = eval(input("\nDigite a posição do seu tiro: "))
+      self.moves.append(coord)

@@ -5,6 +5,7 @@ from Player import Player
 from Board import Board
 
 from constants import *
+from util import *
 
 class Game:
   running = True
@@ -16,64 +17,35 @@ class Game:
   orientation = False
 
   def __init__(self) -> None:
-    pygame.init()
-    self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Battleship Board")
+    pass
 
   def run(self) -> None:
     while self.running:
-      self.update()
-      self.draw()
+      if (self.state == PLACING_SHIPS):
+        self.player.update(self.state)
+        self.board.draw_placement(self.player.ships)
+        if (len(self.player.ships) == len(SHIP_SIZES)):
+          self.state = PLAYER_TURN
+      
+      elif (self.state == PLAYER_TURN):
+        self.player.update(self.state)
+        self.player.moves[-1].append(hasShipConflict([self.player.moves[-1]], self.agent.ships))
 
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          self.running = False
-          break
+        self.board.draw_moves(self.player.moves)
+        self.state = AI_TURN
 
-        if (self.state == PLACING_SHIPS):
-          if (event.type == pygame.MOUSEMOTION):
-            mouse_pos = pygame.mouse.get_pos()
-            mouse_x = (mouse_pos[0] // CELL_WIDTH) * CELL_WIDTH
-            mouse_y = (mouse_pos[1] // CELL_HEIGHT) * CELL_HEIGHT
+      elif (self.state == AI_TURN):
+        self.agent.update(self.player.ships)
+        self.agent.moves[-1].append(hasShipConflict([self.agent.moves[-1]], self.player.ships))
 
-            positions = []
-            idx_size = len(self.player.ships)
-            size = SHIP_SIZES[idx_size]
-            rec = None
-            for pos in range(1, size + 1):
-              if (self.orientation):
-                rec = pygame.Rect(mouse_x, mouse_y // CELL_HEIGHT * pos, CELL_WIDTH, CELL_HEIGHT)
-              else:
-                rec = pygame.Rect(mouse_x // CELL_WIDTH * pos, mouse_y, CELL_WIDTH, CELL_HEIGHT)
-
-              pygame.draw.rect(self.board.surface, pygame.Color(66, 66, 66, 60), rec)
-              positions.append([mouse_x // CELL_WIDTH, mouse_y // CELL_HEIGHT])
-
-              idx_size -= 1
-
-          if event.type == pygame.MOUSEBUTTONDOWN: # place ship
-            if event.button == 1:
-              self.player.add_ship(positions, self.orientation)
-              if len(self.player.ships) == len(SHIP_SIZES):
-                self.state = PLAYER_TURN
-
-          if event.type == pygame.KEYDOWN: # rotate ship
-            if event.key == pygame.K_o:
-              self.orientation = not self.orientation
-
-            if event.key == pygame.K_SPACE: # end placing ships
-              self.state = PLAYER_TURN
-
-    pygame.quit()
-
-  def update(self) -> None:
-    self.player.update()
-    self.agent.update()
-    self.board.update()
-
-  def draw(self) -> None:
-    self.agent .draw(self.board.surface)
-    self.player.draw(self.board.surface)
-    self.board .draw()
-    self.screen.blit(self.board.surface, (SCREEN_WIDTH // 2 - BOARD_WIDTH // 2, SCREEN_HEIGHT // 2 - BOARD_HEIGHT // 2))
-    pygame.display.flip()
+        self.board.draw_moves(self.agent.moves)
+        self.state = PLAYER_TURN
+      
+      if (testWin(self.agent.moves)):
+        print("\nIA venceu!")
+        self.running = False
+        break
+      elif (testWin(self.player.moves)):
+        print("\nJogador venceu!")
+        self.running = False
+        break

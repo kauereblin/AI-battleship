@@ -1,25 +1,50 @@
-import pygame
+# import pygame
+import os
+
+from Ship import Ship
 from constants import *
 
 class Board:
-  surface = None
-  
   def __init__(self) -> None:
-    self.surface = pygame.Surface((BOARD_WIDTH, BOARD_HEIGHT))
-    self.surface.fill(LIGHT_BLUE)
-
-  def update(self) -> None:
     pass
 
-  def draw(self) -> None:
-    for x in range(0, BOARD_WIDTH, CELL_WIDTH):
-      pygame.draw.line(self.surface, BLACK, (x, 0), (x, BOARD_HEIGHT))
-    for y in range(0, BOARD_HEIGHT, CELL_HEIGHT):
-      pygame.draw.line(self.surface, BLACK, (0, y), (BOARD_WIDTH, y))
+  def draw_placement(self, ships: list[Ship]) -> None:
+    os.system("cls")
+    for col_cell in range(GRID_SIZE):
+      print()
+      for row_cell in range(GRID_SIZE):
+        empty = True
 
-    font = pygame.font.SysFont(None, 24)
-    for i in range(10):
-      letter = font.render(chr(ord('A') + i), True, BLACK)
-      number = font.render(str(i + 1), True, BLACK)
-      self.surface.blit(letter, (i * CELL_WIDTH + CELL_WIDTH // 2 - letter.get_width() // 2, BOARD_HEIGHT - letter.get_height()))
-      self.surface.blit(number, (0, i * CELL_HEIGHT + CELL_HEIGHT // 2 - number.get_height() // 2))
+        for ship in ships:
+          printed = False
+          for coord_ship in ship.positions:
+            if (coord_ship[0] == row_cell and coord_ship[1] == col_cell):
+              empty = False
+              printed = True
+              break
+          if (printed):
+            break
+
+        if (empty):
+          print(" - ", end="")
+        else:
+          print(" N ", end="")
+
+  def draw_moves(self, moves: list[int]) -> None:
+    print("\n------------------")
+    for col_cell in range(GRID_SIZE):
+      print()
+      for row_cell in range(GRID_SIZE):
+        empty = True
+
+        for coord_shot in moves:
+          if (coord_shot[0] == row_cell and coord_shot[1] == col_cell):
+            empty = False
+            if (coord_shot[2]):
+              print(" X ", end="")
+            else:
+              print(" O ", end="")
+            break
+        
+        if (empty):
+          print(" - ", end="")
