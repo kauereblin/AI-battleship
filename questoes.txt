@@ -1,0 +1,27 @@
+Jogo escolhido: Batalha Naval
+
+Batalha naval é um jogo de estratégia de dois jogadores no qual cada jogador posiciona seus navios em um tabuleiro e tenta adivinhar a localização dos navios do oponente para afundá-los. O objetivo do jogo é afundar todos os navios do oponente antes que ele afunde os seus.
+
+Regras do Jogo:
+
+1.Cada jogador possui um tabuleiro 10x10 no qual posiciona seus navios. Os navios podem ser de diferentes tamanhos, geralmente 2 a 5 células de comprimento.
+2.Os jogadores alternam entre fazer "disparos" no tabuleiro do oponente, tentando acertar as coordenadas dos navios inimigos.
+3.Quando um tiro atinge uma parte de um navio, o jogador marca essa posição como "atingida." Se todas as partes de um navio forem atingidas, o navio é considerado afundado.
+4.O jogo continua até que um jogador tenha afundado todos os navios do oponente.
+
+Formulação do Problema de Busca:
+O problema de busca em Batalha Naval é determinar uma estratégia eficiente para disparar tiros no tabuleiro do oponente a fim de afundar seus navios o mais rápido possível, minimizando o número de tiros. Isso envolve identificar a localização dos navios inimigos a partir dos tiros anteriores e ajustar a estratégia com base nas informações disponíveis.
+
+Estado Inicial: O estado inicial é o tabuleiro vazio de cada jogador, no qual nenhum tiro foi disparado e nenhum navio foi afundado.
+
+Estado Objetivo: O estado objetivo é alcançado quando um jogador afunda todos os navios do oponente.
+
+Função Sucessor: Disparar um tiro em uma coordenada do tabuleiro do oponente.
+
+Custo de Caminho: O custo de caminho não é um fator significativo em Batalha Naval, uma vez que o objetivo é afundar todos os navios do oponente, independentemente do número de tiros necessários. Portanto, o custo de caminho geralmente é tratado como constante ou ignorado na maioria das formulações.
+
+Batalha naval é um jogo determinístico, pois todas as informações relevantes estão disponíveis aos jogadores em todos os momentos, sem nenhum elemento que modifique aleatoriamente os estados do jogo.
+
+Hunt / Target strategy
+
+Após a implementação, reflita se você acha que esse foi o algoritmo mais indicado e explique qual outro algoritmo poderia ser indicado.
