@@ -22,6 +22,7 @@ Custo de Caminho: O custo de caminho não é um fator significativo em Batalha N
 
 Batalha naval é um jogo determinístico, pois todas as informações relevantes estão disponíveis aos jogadores em todos os momentos, sem nenhum elemento que modifique aleatoriamente os estados do jogo.
 
-Hunt / Target strategy
+Usamos um algoritmo de Hunt / Target
 
-Após a implementação, reflita se você acha que esse foi o algoritmo mais indicado e explique qual outro algoritmo poderia ser indicado.
+Além da estratégia de caçada e alvo, é possível usar um algoritmo que usa tentativas aleatórias, não sendo tão eficiente.
+
