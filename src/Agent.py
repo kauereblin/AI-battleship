@@ -42,7 +42,7 @@ class Agent:
     while True:
       # generate a random position to shoot
       guess_row, guess_col = random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
-      if [guess_row, guess_col] not in self.moves:
+      if [guess_row, guess_col, True | False] not in self.moves:
         break
     
     return [guess_row, guess_col]
@@ -56,12 +56,12 @@ class Agent:
     if (hasShipConflict([[guess_row, guess_col]], player_ships)):
       # if hits, add all adjacent positions to targets
       potential_targets = [[guess_row + 1, guess_col], [guess_row, guess_col + 1],
-                         [guess_row - 1, guess_col], [guess_row, guess_col - 1]]
+                           [guess_row - 1, guess_col], [guess_row, guess_col - 1]]
       
       for move_x, move_y in potential_targets:
         if (0 <= move_x < GRID_SIZE and 0 <= move_y < GRID_SIZE and \
-            [move_x, move_y] not in self.moves and [move_x, move_y] not in self.targets):
+            [move_x, move_y, True | False] not in self.moves and [move_x, move_y] not in self.targets):
           # if the position is valid and not in moves or targets already
           self.targets.append([move_x, move_y])
     
-    self.moves.append([guess_row, guess_col])
+    self.moves.append([guess_row, guess_col, False])

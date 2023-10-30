@@ -13,6 +13,8 @@ class Board:
     for col_cell in range(GRID_SIZE):
       print()
       for row_cell in range(GRID_SIZE):
+        if (not row_cell):
+          print(col_cell, end="")
         empty = True
 
         for ship in ships:
@@ -30,11 +32,14 @@ class Board:
         else:
           print(" N ", end="")
 
+    print("\n  0  1  2  3  4  5  6  7  8  9 ")
+
   def draw_moves(self, moves: list[int]) -> None:
-    print("\n------------------")
     for col_cell in range(GRID_SIZE):
       print()
       for row_cell in range(GRID_SIZE):
+        if (not row_cell):
+          print(col_cell, end="")
         empty = True
 
         for coord_shot in moves:
@@ -48,3 +53,5 @@ class Board:
         
         if (empty):
           print(" - ", end="")
+    
+    print("\n  0  1  2  3  4  5  6  7  8  9 ")
